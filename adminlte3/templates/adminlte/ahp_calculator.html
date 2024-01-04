@@ -1,0 +1,62 @@
+{% extends 'adminlte/base.html' %}
+{% block page_description %}
+<h1>AHP Calculator</h1>
+<form method="post" action="{% url 'calculate_ahp' %}">
+    {% csrf_token %}
+    <label for="criteria_count">Number of Criteria (2-20):</label>
+    <input type="number" name="criteria_count" id="criteria_count" min="2" max="20" required>
+
+    <button type="submit">Generate AHP Matrix</button>
+</form>
+
+{% if criteria_count %}
+    <h2>Pairwise Comparison Matrix</h2>
+    <form method="post" action="{% url 'calculate_ahp' %}">
+        {% csrf_token %}
+        <input type="hidden" name="criteria_count" value="{{ criteria_count }}">
+        <table border="1">
+            <tr>
+                <td></td>
+                {% for i in range(criteria_count) %}
+                    <th>Criteria {{ i+1 }}</th>
+                {% endfor %}
+            </tr>
+            {% for i in range(criteria_count) %}
+                <tr>
+                    <th>Criteria {{ i+1 }}</th>
+                    {% for j in range(criteria_count) %}
+                        <td>
+                            <input type="radio" name="comparison_{{ i }}_{{ j }}" value="1" required>
+                            <input type="radio" name="comparison_{{ i }}_{{ j }}" value="3" required>
+                            <input type="radio" name="comparison_{{ i }}_{{ j }}" value="5" required>
+                            <input type="radio" name="comparison_{{ i }}_{{ j }}" value="7" required>
+                            <input type="radio" name="comparison_{{ i }}_{{ j }}" value="9" required>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">Calculate AHP</button>
+    </form>
+{% endif %}
+
+{% if matrix %}
+    <h2>Decision Matrix</h2>
+    <table border="1">
+        {% for row in matrix %}
+            <tr>
+                {% for cell in row %}
+                    <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Priority Vector</h2>
+    <ul>
+        {% for weight in priority_vector %}
+            <li>{{ weight }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

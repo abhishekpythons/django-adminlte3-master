@@ -1,0 +1,176 @@
+{% load adminlte_helpers %}
+{%load static %}
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar sidebar-dark-primary  elevation-4">
+     <!-- Brand Logo -->
+    {% block logo %}
+        <a href="/" class="brand-link">
+            <img src="{%static 'admin-lte/dist/img/isro.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            {% block logo_text %}<span class="brand-text font-weight-light">Decision Support System</span>{% endblock %}
+        </a>
+    {% endblock %}
+    <!-- sidebar: style can be found in sidebar.less -->
+    <div class="sidebar">
+        <!-- Sidebar user panel -->
+        {% block user_panel %}
+        <!-- Sidebar user panel (optional) -->
+     <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="{% avatar_url size=90 %}" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">{% firstof request.user.get_full_name request.user.username %}</a>
+        </div>
+      </div>-->
+        {% endblock %}
+
+        {% block form %}{% endblock %}
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        {% block nav_links_ul %}
+
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            {% block nav_links_outer %}
+            
+
+            <li class="nav-header">{% block nav_heading %}All Layers{% endblock %}</li>
+            {% block nav_links %}
+           <!-- <li class="nav-item has-tree-view ">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-object-group"></i> <p>Basic Map</p>
+                    <p><i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+            <ul class="nav nav-treeview menu-open">
+                    <div class="text-white"> 
+                        <label for=""><b>Select Layer: </b></label>
+                        <div class="form-check">
+                            <input class="form-check-input layer-select" type="checkbox" value="bingMap" id="bingMapCheckbox" onchange="toggleBingMapLayer()">
+                            <label class="form-check-label" for="bingMapCheckbox">Bing Map</label>
+                            
+                        </div>
+                        </div><div class="form-check">
+                            <input class="form-check-input layer-select" type="checkbox" value="googlemap" id="googleMap" onChange="setLayer(this)">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                google Map
+                            </label>
+                        </div>
+
+            </ul>
+            </li>>-->
+           
+            
+            <li class="nav-item has-tree-view ">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-object-group"></i> <p>Thematic layer</p>
+                    <p><i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+            <ul class="nav nav-treeview menu-open">
+            <div class="text-white"> 
+            <label for=""><b>Select Layer: </b></label>
+            <div class="form-check">
+                <input class="form-check-input layer-select" type="checkbox" value="osm" id="OpenStreetMap" onChange="setLayer(this)">
+                <label class="form-check-label" for="flexCheckDefault">
+                    OpenStreetMap
+                </label>
+            </div>
+
+            <div>
+                <input type="checkbox" id="bingMapCheckbox" onchange="toggleBaseLayer()">
+                <label for="bingMapCheckbox">Bing Maps</label>
+              </div>
+            
+
+            <div class="form-check">
+                <input class="form-check-input layer-select" type="checkbox" value="aspect" id="aspect" onChange="setLayer(this)" >
+                <label class="form-check-label" for="flexCheckChecked">
+                aspect
+                </label>
+             </div>
+            <div class="form-check">
+                <input class="form-check-input layer-select" type="checkbox" value="slope" id="slope" onChange="setLayer(this)" >
+                <label class="form-check-label" for="flexCheckChecked">
+                    slope
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input layer-select" type="checkbox" value="lulcmask" id="lulcmask" onChange="setLayer(this)" >
+                <label class="form-check-label" for="flexCheckChecked">
+                    lulcmask
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input layer-select" type="checkbox" value="Champawat" id="Champawat" onChange="setLayer(this)" >
+                <label class="form-check-label" for="flexCheckChecked">
+                    Champawat
+                </label>
+                </div>
+          
+            <div class="form-check">
+                <input class="form-check-input layer-select" type="checkbox" value="chiling" id="chiling" onChange="setLayer(this)" >
+                <label class="form-check-label" for="flexCheckChecked">
+                    Chilinghour
+                </label>
+                </div>
+            <div class="form-check">
+                <input class="form-check-input layer-select" type="checkbox" value="tem" id="tem" onChange="setLayer(this)" >
+                <label class="form-check-label" for="flexCheckChecked">
+                    temperature
+                </label>   
+                </div>          
+</script>
+
+    
+    <!--<li class="nav-item">
+            <a href="https://www.weather.com/weather/today/l/Champawat+Uttarakhand+India?</a>
+            " class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i> 
+                <p>wheather info</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="https://bhuvan-app1.nrsc.gov.in/thematic/thematic/index.php" class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i> 
+                <p>Thematic applications</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a href="https://www.weather.com/weather/today/l/Champawat+Uttarakhand+India?</a>
+            " class="nav-link active">
+                <i class="nav-icon fas fa-tachometer-alt"></i> 
+                <p>Geo Analytic tool</p>
+            </a>
+        </li>-->
+    </ul>
+
+    <li class="nav-item has-tree-view ">
+        <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-object-group"></i> <p>Sub menu</p>
+            <p><i class="right fas fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview menu-open">
+                <li class="nav-item">
+                        <a href="/ahp_calculator" class="nav-link">
+                            <i class="nav-icon fas fa-circle"></i> AHP Tool
+                        </a>
+                    </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link active">
+                    <i class="nav-icon fas fa-user"></i> Another link
+                </a>
+            </li>
+        </ul>
+    </li>
+            {% endblock nav_links %}
+            {% endblock nav_links_outer %}s
+            
+            </nav>
+        {% endblock nav_links_ul %}
+    </div>
+    <!-- /.sidebar -->
+</aside>
