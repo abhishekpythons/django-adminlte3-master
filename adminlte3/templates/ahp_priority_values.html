@@ -1,0 +1,31 @@
+{% extends 'adminlte/base.html' %}
+{% block page_description %}
+<h1>AHP Priority Values</h1>
+    <form method="post" action="{% url 'priority_values' %}">
+        {% csrf_token %}
+        <input type="hidden" name="criteria_count" value="{{ criteria_count }}">
+        <h2>Pairwise Comparison Matrix</h2>
+        <table border="1">
+            <tr>
+                {% for criteria in criteria_names %}
+                    <th>{{ criteria }}</th>
+                    <input type="hidden" id="criteria" name="criteria">
+                {% endfor %}
+            </tr>
+            {% for i in criteria_count|get_range %}
+                <tr>
+                {% for j in criteria_count|get_range %}
+                    <td>
+                        {% for k in 10|get_range_from_1 %}
+                            <input type="radio" name="comparison_{{ i }}_{{ j }}" value="{{k}}" required>{{k}} 
+                        {% endfor %}
+                    </td>
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">Calculate AHP</button>
+    </form>
+
+    # Note :- Pairing and taking input for each pair is remaining yet
+{% endblock %}

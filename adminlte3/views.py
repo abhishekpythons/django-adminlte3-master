@@ -7,6 +7,22 @@ from .models import YourModelName
 import numpy as np
 # from ahp_calculator import ahp_calculator
 
+from django.template.defaulttags import register
+
+@register.filter
+def get_range(value):
+    return range(value)
+
+
+@register.filter
+def get_range_from_1(value):
+    return range(value+1)[1:value+1]
+
+
+@register.filter
+def get_element_by_index(lst, index):
+    return lst[index]
+
 logger = logging.getLogger(__name__)
 
 variables = {}
@@ -58,19 +74,30 @@ def upload_csv(request):
 # from django.shortcuts import render
 # import numpy as np
 
-def ahp_calculator(request):
+def criteria_count(request):
+    criteria_count = None
+    if request.method == 'POST':
+        criteria_count = int(request.POST.get('criteria_count'))
+        c1 = request.POST.get('criteria_1')
+        if c1:
+            criteria_names=[]
+            criteria_names.append(c1)
+            for i in range(2,criteria_count+1):
+                criteria_names.append(request.POST.get(f'criteria_{i}'))
+            print(criteria_names)
+            return render(request, 'ahp_priority_values.html', {'criteria_count': criteria_count, 'criteria_names':criteria_names})
+    return render(request, 'ahp_criteria_count.html', {'criteria_count':criteria_count})
+
+def calculate_ahp(request):
     matrix = None
     priority_vector = None
-    criteria_count = request.POST.get('criteria_count')
+    criteria_count = int(request.POST.get('criteria_count'))
 
-    if request.method == 'POST' and not criteria_count:
-        criteria_count = int(criteria_count)
+    if request.method == 'POST':
+        matrix = generate_ahp_matrix(request.POST, criteria_count)
+        priority_vector = calculate_priority_vector(matrix)
 
-        if 2 <= criteria_count <= 20:
-            matrix = generate_ahp_matrix(request.POST, criteria_count)
-            priority_vector = calculate_priority_vector(matrix)
-
-    return render(request, 'adminlte/ahp_calculator.html', {'matrix': matrix, 'priority_vector': priority_vector, 'criteria_count': criteria_count})
+    return render(request, 'ahp_results.html', {'matrix': matrix, 'priority_vector': priority_vector, 'criteria_count': criteria_count})
 
 def generate_ahp_matrix(post_data, criteria_count):
     matrix = np.ones((criteria_count, criteria_count))
@@ -90,7 +117,6 @@ def calculate_priority_vector(matrix):
     priority_vector /= np.sum(priority_vector)
     
     return priority_vector.tolist()
-
 
 def dashboard(request):
     a = 10

@@ -26,6 +26,8 @@ urlpatterns = [
     path('login/', TemplateView.as_view(template_name='adminlte/login.html')),
     path('admin/', admin.site.urls),
     path('upload-csv/', views.upload_csv, name='upload_csv'),
-    path('ahp_calculator/', views.ahp_calculator, name='calculate_ahp'),
-    path('dashboard/', include('adminlte3.urls'))
+    path('dashboard/', include('adminlte3.urls')),
+    path('ahp/criteria_count/', views.criteria_count, name='criteria_count'),
+    path('ahp/calculate_ahp/', views.calculate_ahp, name='priority_values'), 
+    # path('ahp/result/', views.show_result, name='priority_values'), 
 ]

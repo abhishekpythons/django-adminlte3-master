@@ -1,0 +1,34 @@
+{% extends 'adminlte/base.html' %}
+{% block page_description %}
+
+<h1>
+    Matrix
+</h1>
+<table border="2">
+    <tr>
+        {% for i in criteria_count|get_range %}
+            <td>criteria {{criteria_name.i}}</td>
+        {% endfor %}
+    </tr>
+    {% for rows in matrix %}
+    <tr>
+        {% for col in rows %}
+            <td>{{col}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+
+<h1>Priorities</h1>
+<table border="2">
+    <tr><th>Criteria</th><th>Priority</th></tr>
+{% for priority in priority_vector %}
+<tr><td>criteria</td><td>{{priority}}</td></tr>
+{% endfor %}
+</table>
+
+this is matrix:
+{{matrix}} <br>
+this is priority:
+{{priority_vector}}
+{% endblock %}
