@@ -9,7 +9,7 @@ Number of criterias given: {{criteria_count}}
     {% csrf_token %}
     {% for i in criteria_count|get_range_from_1 %}
         <label for="criteria_{{i}}">Enter Criteria {{i}}: </label>
-        <input type="text" id="criteria_{{i}}" name="criteria_{{i}}"> <br>
+        <input type="text" id="criteria_{{i}}" name="criteria_{{i}}" required> <br>
     {% endfor %}
     <input type="submit" value="Calculate AHP Priority">
 </form>
