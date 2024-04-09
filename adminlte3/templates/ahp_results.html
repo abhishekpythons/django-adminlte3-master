@@ -12,6 +12,10 @@
         width: 70px; /* Adjust the width as needed */
         text-align: center; /* Center the values */
     }
+
+    tr:nth-child(even) {
+  background-color: #e0e0e0;
+}
 </style>
 
 <h1>
@@ -34,6 +38,8 @@
     {% endfor %}
 </table>
 
+<br>    
+
 <h1>Priorities</h1>
 <table border="2">
     <tr><th>Criteria</th><th>Priority</th><th>Rank</th></tr>
@@ -41,4 +47,14 @@
 <tr><td>{{criteria_names|get_element_by_index:i}}</td><td>{{priority_vector|get_element_by_index:i}}%</td><td>{{ranks|get_element_by_index:i}}</td></tr>
 {% endfor %}
 </table>
+<br>
+<h1>Consistency Ratio (CR)</h1>
+{{ cr }}
+<br>    
+<br>
+<h1>Principal eigen value</h1>
+{{ max_eigen }}
+
 {% endblock %}
+
+

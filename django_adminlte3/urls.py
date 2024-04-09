@@ -28,6 +28,7 @@ urlpatterns = [
     path('upload-csv/', views.upload_csv, name='upload_csv'),
     path('dashboard/', include('adminlte3.urls')),
     path('ahp/criteria_count/', views.criteria_count, name='criteria_count'),
-    path('ahp/calculate_ahp/', views.calculate_ahp, name='priority_values'), 
+    path('ahp/calculate_ahp/', views.calculate_ahp, name='priority_values'),
+    path('test_pdf', views.render_to_pdf, name='test_pdf'),
     # path('ahp/result/', views.show_result, name='priority_values'), 
 ]

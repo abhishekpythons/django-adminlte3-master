@@ -9,6 +9,24 @@ import numpy as np
 
 from django.template.defaulttags import register
 
+RI_table = [0, 0, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51]
+
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+
+from xhtml2pdf import pisa
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if pdf.err:
+        return HttpResponse("Invalid PDF", status_code=400, content_type='text/plain')
+    return HttpResponse(result.getvalue(), content_type='application/pdf')
+
+
 @register.filter
 def get_range(value):
     return range(value)
@@ -113,7 +131,7 @@ def calculate_priority_vector(matrix):
     priority_vector = eigvecs[:, max_eigval_index].real
     priority_vector /= np.sum(priority_vector)
     
-    return priority_vector
+    return priority_vector, eigvals[max_eigval_index]
 
 def round_values(data, decimal_places):
     if isinstance(data, list):
@@ -133,10 +151,15 @@ def calculate_ahp(request):
         criteria_names = ' '+criteria_names[1:-1]
         criteria_names = [ele[2:-1] for ele in criteria_names.split(',')]
         matrix = generate_ahp_matrix(request.POST, criteria_count)
-        priority_vector = calculate_priority_vector(matrix)
+        priority_vector, max_eigen = calculate_priority_vector(matrix)
         ranks = [criteria_count-list(np.argsort(priority_vector)).index(i) for i in range(criteria_count)]
         priority_vector_percentage = 100*priority_vector
-        return render(request, 'ahp_results.html', {'matrix': round_values(matrix, 2), 'priority_vector': round_values(priority_vector_percentage, 2), 'criteria_count': criteria_count, 'criteria_names':criteria_names, 'ranks':ranks})
+        max_eigen=round(max_eigen, 3)   
+        ci=(max_eigen-criteria_count)/(criteria_count-1)
+        ri=RI_table[criteria_count-1]
+        cr=ci/ri
+        cr=round(cr, 3)
+        return render(request, 'ahp_results.html', {'matrix': round_values(matrix, 2), 'priority_vector': round_values(priority_vector_percentage, 2), 'criteria_count': criteria_count, 'criteria_names':criteria_names, 'ranks':ranks, 'cr':cr.real, 'max_eigen':max_eigen.real})
     return(redirect('home'))
 
 
